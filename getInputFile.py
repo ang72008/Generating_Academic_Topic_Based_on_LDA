@@ -294,7 +294,6 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
     
     #打开sql server数据库
     #artConn = pyodbc.connect('DRIVER={SQL Server};SERVER=xx;DATABASE=xx;UID=sa;PWD=xx')
-    #登录sqlserver数据库（两个变量一样的意义，求解)
     artConn = pyodbc.connect('DRIVER={SQL Server};SERVER=xx;DATABASE=xx;UID=rucreader;PWD=xx')
     artCur = artConn.cursor()
     
@@ -302,42 +301,27 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
     cttConn = pyodbc.connect('DRIVER={SQL Server};SERVER=xx;DATABASE=xx;UID=rucreader;PWD=xx') 
     cttCur = cttConn.cursor()
     
-    #查询符合pdcCode的文章ID
     #gc.disable()
     
-    #分别把传入参数year和pdccode保存为字符串变量
     newYear  = "'"
     newYear += year
     newYear += "'"
     newCode  = "'"
     newCode += pdcCode
     newCode += "'"
-    #打印字符串变量newCode信息
     #print "newCode=%s"%(newCode)
     newNo = str(pdcNo).split(',')
-    #打印字符串变量newNo信息
     #print "newNo=%s"%(newNo)
     
     for each in newNo:
-        #在sqlserver数据库中选出符合pdcCode和pdcNo一一对应关系的行的ID和title，以ID升序排列
         artCur.execute(u"SELECT ID,title FROM r_art WHERE pdcCode=%s and pdcNo=%s and pdcYear=%s ORDER BY ID asc"%(newCode, each, newYear))
-        #把上述命令执行结果二维数组保存到变量artRecords
         artRecords = artCur.fetchall()
-        #打印此pdcNo对应的pdccode的信息和二维数组的长度
         #print 'pdcCode=%s, artNum=%d'%(pdcCode, len(artRecords))
-        
-        #从表artctt中获取文章内容保存到对应名字的文本文件
-        #设置计数器
         processNum = 0
-        #执行等于二维数组artrecords长度数次数循环
         for eachArt in artRecords:
-            #在表artctt中选出满足二维数组artrecords的id的行的ctt
             queryStr = u"SELECT ctt FROM r_artCtt WHERE artID = '%d' ORDER BY ID asc" %(eachArt[0])
-            #把上述命令执行结果吧哦窜到temp变量
             temp = cttCur.execute(queryStr).fetchall()
             
-            #生成标题
-            #把artID保存为字符串变量title
             #给标题添加artID，为了方便以后从标题中读出ID，将ID统一为8位数字            
             title  = u''
             title += str(eachArt[0]).zfill(8)
@@ -350,12 +334,10 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
                 titleStr = titleStr[:120]
                 
             #先用正则表达式过滤非汉字字符
-            #在titlestr中找出符合[\u4E00-\u9FA5]+条件的字符串保存到groups
             groups = re.findall(u'[\u4E00-\u9FA5]+', titleStr) 
             #print 'len=%s'%(len(groups))
             titleStr = u''
             for each in groups:
-                #每个title分别保存到titleStr
                 titleStr += each
             
             #再过滤一遍不适合作为标题的字符
@@ -383,7 +365,6 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
             #生成内容
             content = u""
             try:
-                #temp是个一维数组，需要用i[0]表示其中的值么
                 for i in temp:
                     #print 'i=%s'%(i[0])                
                     #i = i[0].decode('gbk','ignore').strip()
@@ -399,10 +380,8 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
                 continue
             
             #yield content
-            #把内容写入到对应文件夹
             write2file(title, folderName, content)    
             
-            #计数器加1
             processNum += 1
         
             #if processNum%1000 == 0:
@@ -417,7 +396,6 @@ def getArtByPdcCodeByYear(pdcCode,pdcNo,folderName,year):
 #将所有论文全文按pdcCode分类下载下来，与getAllArt的区别是按指定年份下载
 #将数据来源从.6服务器改成从线上xx上下载
 def getAllArtByYear(folder, year):
-    #打开mysql数据库
     #登录数据库
     kwConn= MySQLdb.connect(
                                host='localhost',
@@ -426,16 +404,11 @@ def getAllArtByYear(folder, year):
                                passwd='nopasswd',
                                db ='rucdm',
                            )
-    #设置执行命令编码类型
     kwConn.set_character_set('utf8')
     kwCur = kwConn.cursor()
-    #从2017Q1pdcNo中选出所有行，以pdccode升序排列 
     kwCur.execute(u"SELECT * FROM 2017Q4pdcNo ORDER BY pdcCode asc")
-    #取出上述命令执行结果二维数组pdcCode和pdcNo保存到变量pdcRecords
     pdcRecords = kwCur.fetchall()
-    #打印出变量pdcRecords的长度
-    print 'pdcRecords=%s, kind of pdcCodes:%s'%(pdcRecords, len(pdcRecords))
-    #把二维数组pdcRecords中的pdcCode保存到pdcCode,把pdcNo保存到pdcNo,二者均为一维数组,循环执行次数=pdcCode种类数
+    #print 'pdcRecords=%s, kind of pdcCodes:%s'%(pdcRecords, len(pdcRecords))
     for each in pdcRecords:
         pdcCode = each[0]
         #print 'pdcCode=%s'%(pdcCode)
@@ -443,11 +416,8 @@ def getAllArtByYear(folder, year):
         #print 'pdcNo=%s'%(pdcNo)
         
         #判断对应的Folder是否已建立
-        #把路径 数据存放根目录/期刊号文件夹 保存到变量pdcFolder
         pdcFolder = os.path.join(folder, pdcCode)
-        #判断上述路径是否已建立，结果保存到flag,值为True或False
         flag = os.path.exists(pdcFolder)
-        #若未建立上述路径，建立；否则继续执行
         if flag == False:
             os.mkdir(pdcFolder)
             print '%s has been established!'%(pdcFolder) 
@@ -457,9 +427,7 @@ def getAllArtByYear(folder, year):
         #下载这一类别的一季度的文章
         print 'Downloading files belong to %s' %(pdcCode)
         getArtByPdcCodeByYear(pdcCode,pdcNo,pdcFolder,year)
-        #打印执行完以上步骤pdccode和pdcno的信息
         #print 'pdcCode=%s end, pdcNo=%s'%(pdcCode, pdcNo)
-    #所有循环执行结束后打印结束信息
     print 'process end!'
     #关闭数据库连接
     kwCur.close()
