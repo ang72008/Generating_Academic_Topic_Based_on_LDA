@@ -679,14 +679,14 @@ if __name__ =="__main__":
     #    print n.group()
     
     #下载2017年全部文件
-    #artFolder = r'E:\data\rucArt2017'
-    #getAllArtByYear(artFolder, '2017')
-    #checkAllArtByYear(artFolder, '2017')
+    artFolder = r'E:\data\rucArt2017'
+    getAllArtByYear(artFolder, '2017')
+    checkAllArtByYear(artFolder, '2017')
     
     #更新专题的来源文件
-    #subjectFolder = r'E:\data\subject\subjectResult'
-    #qkInFolder = r'E:\data\rucArt2017'
-    #updateSubjectInput(subjectFolder, qkInFolder)
+    subjectFolder = r'E:\data\subject\subjectResult'
+    qkInFolder = r'E:\data\rucArt2017'
+    updateSubjectInput(subjectFolder, qkInFolder)
     
     #为更新后的文件做分词
     subjectFolder = r'E:\data\subject\subjectResult'
