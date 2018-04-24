@@ -73,12 +73,12 @@ def genDict(texts):
 def calLSIandIndex(dictionary, texts):
     #文章转化为向量
     corpus = [dictionary.doc2bow(text) for text in texts]
-    #基于这些“训练文档”计算一个TF-IDF“模型”
+    #基于这些训练文档计算一个TF-IDF
     tfidf = models.TfidfModel(corpus)
     #基于这个TF-IDF模型，将上述用词频表示的文档向量表示为用tf-idf值表示的文档向量
     corpus_tfidf = tfidf[corpus]
     
-    #用tf-idf值表示的文档向量，训练LSI模型，设置topic数为500：
+    #用tf-idf值表示的文档向量，训练LSI模型
     lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=500)
     
     #用lsi模型将文档映射到topic空间中   
@@ -100,17 +100,17 @@ def calLDAandIndex(dictionary, texts):
     
     #文章转化为向量
     corpus = [dictionary.doc2bow(text) for text in texts]
-    #基于这些“训练文档”计算一个TF-IDF“模型”
+    #基于这些训练文档计算TF-IDF
     tfidf = models.TfidfModel(corpus)
     #基于这个TF-IDF模型，将上述用词频表示的文档向量表示为用tf-idf值表示的文档向量
     corpus_tfidf = tfidf[corpus]
     
-    #用tf-idf值表示的文档向量，训练LSI模型，设置topic数为50：
+    #用tf-idf值表示的文档向量，训练LDA模型
     lda = models.LdaModel(corpus_tfidf, id2word=dictionary, num_topics=200)
     lda.show_topics()
     
-    #用lsi模型将文档映射到topic空间中   
-    corpus_lsi = lda[corpus_tfidf]
+    #用lda模型将文档映射到topic空间中   
+    corpus_lda = lda[corpus_tfidf]
     #for doc in corpus_lsi:
         #print doc
     
@@ -128,7 +128,7 @@ def querybyMolIndex(mod, index, query_bow):
     query_lsi = mod[query_bow]
     #print 'query_lsi: ', query_lsi
     
-    #计算它和index中doc的余弦相似度了：
+    #计算它和index中doc的余弦相似度：
     sims = index[query_lsi]
     
     #然后按相似度进行排序：
