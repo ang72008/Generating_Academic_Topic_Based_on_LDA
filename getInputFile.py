@@ -616,7 +616,6 @@ def updateSubjectToken(baseFolder):
     return;
 
 
-
 #下面为测试程序
 if __name__ =="__main__":
     #读入刊号为 pcdCode 的文章
@@ -637,11 +636,6 @@ if __name__ =="__main__":
     #artFolder = r'E:\data\rucArt'
     #checkAllArt(artFolder)
     
-    #下载2015年全部文件
-    #artFolder = r'E:\data\rucArt2015_2'
-    #getAllArtByYear(artFolder, '2015')
-    #checkAllArtByYear(artFolder, '2015')
-    
     #给jieba分词加入新词
     #newWordFolder = r"E:\data\subject\wordDict\subjectKeywords"
     #addNewWord(newWordFolder)
@@ -653,30 +647,6 @@ if __name__ =="__main__":
     #inputFolder = r'E:\data\rucArt2015_2\V3'
     #outputFolder = r'E:\data\subject\subjectResult\s21\V3Token'
     #tokenByJieba(inputFolder, outputFolder)
-    
-    '''    #给双层文件夹下的文件分词
-    inputFolder = r'E:\data\subject\subjectResult\s1\tokenInput'
-    outputFolder = r'E:\data\subject\subjectResult\s1\tokenOutput'
-    subFolders = os.listdir(inputFolder)
-    for eachFolder in subFolders:
-        print eachFolder
-        outFolderName = eachFolder+'Token'
-        fullInFolder = os.path.join(inputFolder, eachFolder)
-        fullOutFolder = os.path.join(outputFolder, outFolderName)
-        if os.path.exists(fullOutFolder):
-            #已分词，跳出
-            continue
-        else:
-            os.mkdir(fullOutFolder)
-        tokenByJieba(fullInFolder, fullOutFolder)
-    '''
-    
-    #test
-    #eachword=u'香港'
-    #eachword=u'CEPA'
-    #n = re.search(ur'[\u4e00-\u9fa5]+|[A-Za-z]+', eachword)
-    #if n is not None:
-    #    print n.group()
     
     #下载2017年全部文件
     artFolder = r'E:\data\rucArt2017'
