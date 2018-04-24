@@ -22,26 +22,15 @@ subjectSourceTbl = '2017subjectsource'
 
 def write2file(filename,folderName, data):
     try:
-        #print 'enter write2file'
-        #print 'filename=%s'%(filename)        
-        #print  'data[0:128]=%s'%(data[0:128])
-        #print 'folderName=%s'%(folderName)
-        #print 'filename=%s'%(filename)
-        
         fullname = os.path.join(folderName, filename)
-        #print  'fullname=%s'%(fullname)
-        f = open(fullname,'wb')
-        #print  'data=%s'%(data)
-        
+        f = open(fullname,'wb') 
         f.writelines(data)
         f.close()
     except Exception:
         print  Exception
         print 'Err: filename=%s'%(filename.decode('gbk').encode('utf-8'))
         
-    
 def getArtByPdcCode(pdcCode, folderName):
-    print 'getArtByPdcCode start! pdcCode=%s'%(pdcCode)
     
     #打开sql server数据库
     #artConn = pyodbc.connect('DRIVER={SQL Server};SERVER=xx;DATABASE=xx;UID=sa;PWD=xx')
