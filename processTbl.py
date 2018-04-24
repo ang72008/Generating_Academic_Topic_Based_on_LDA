@@ -91,7 +91,7 @@ def checkKeywords():
     return
 
 #mark keywords: newAdd, exist, delete
-#对 2015SubjectKeywords 和 r_sub 进行比较， 默认2015SubjectKeywords中为最新关键词，在 r_sub 中能找到的标为 exist，否则为 newAdd
+#对 2017SubjectKeywords 和 r_sub 进行比较， 默认2017SubjectKeywords中为最新关键词，在 r_sub 中能找到的标为 exist，否则为 newAdd
 #对已存在的关键词，沿用 r_sub 中的subCode，对newAdd，重新编制subCode
 def MarkKeywords():
     #打开mysql数据库
