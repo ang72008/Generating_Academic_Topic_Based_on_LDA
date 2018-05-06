@@ -29,7 +29,7 @@ def cleanDir(folder):
 def getTextsFromFolder(foldername):
     
     files = os.listdir(foldername) 
-    texts,fnames,folders = [],[],[]
+    texts = fnames = folders = []
     for each in files:
         fnames.append(each)
         fullname = os.path.join(foldername, each)
@@ -47,7 +47,7 @@ def getTextsFromFolder(foldername):
 def  getTextsFromFolders(foldernames):
     print 'Read files! folder num=%s'%(len(foldernames))
     
-    texts,fnames,folders = [],[],[]
+    texts = fnames =folders = []
     for eachFolder in foldernames:
         eachFolders, eachFnames, eachTexts = getTextsFromFolder(eachFolder)
         texts.extend(eachTexts)
