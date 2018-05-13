@@ -109,12 +109,12 @@ def calLDAandIndex(dictionary, texts):
     lda = models.LdaModel(corpus_tfidf, id2word=dictionary, num_topics=200)
     lda.show_topics()
     
-    #用lda模型将文档映射到topic空间中   
+    #用LDA模型将文档映射到topic空间中   
     corpus_lda = lda[corpus_tfidf]
     #for doc in corpus_lsi:
         #print doc
     
-    #建立文档基于LSI模型的索引
+    #建立文档基于LDA模型的索引
     #similarities.MatrixSimilarity这个类只适用于所有语料可以放入内存的情况，similarities.Similarity类扩展性更好
     index = similarities.MatrixSimilarity(lda[corpus])
 
